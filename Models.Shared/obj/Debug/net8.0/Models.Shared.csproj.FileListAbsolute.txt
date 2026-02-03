@@ -21,3 +21,15 @@ C:\Users\mprio\source\repos\mprior732\APIIntegration\Models.Shared\obj\Debug\net
 C:\Users\mprio\source\repos\mprior732\APIIntegration\Models.Shared\obj\Debug\net8.0\refint\Models.Shared.dll
 C:\Users\mprio\source\repos\mprior732\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.pdb
 C:\Users\mprio\source\repos\mprior732\APIIntegration\Models.Shared\obj\Debug\net8.0\ref\Models.Shared.dll
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\bin\Debug\net8.0\Models.Shared.deps.json
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\bin\Debug\net8.0\Models.Shared.dll
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\bin\Debug\net8.0\Models.Shared.pdb
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.AssemblyInfoInputs.cache
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.AssemblyInfo.cs
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.csproj.CoreCompileInputs.cache
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.sourcelink.json
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.dll
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\refint\Models.Shared.dll
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\Models.Shared.pdb
+C:\Users\mprio\Source\Repos\APIIntegration\Models.Shared\obj\Debug\net8.0\ref\Models.Shared.dll

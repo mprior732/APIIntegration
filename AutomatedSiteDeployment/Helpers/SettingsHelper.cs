@@ -34,9 +34,15 @@ namespace AutomatedSiteDeployment.Helpers
             _AZ102Password = _config["ImpersonationCredentials:AZ102:Password"] ?? string.Empty;
             _AZ201Username = _config["ImpersonationCredentials:AZ201:Username"] ?? string.Empty;
             _AZ201Password = _config["ImpersonationCredentials:AZ201:Password"] ?? string.Empty;
-            _stgPath = _config["ServerPaths:Staging"] ?? string.Empty;
-            _AZ102Path = _config["ServerPaths:AZ102"] ?? string.Empty;
-            _AZ201Path = _config["ServerPaths:AZ201"] ?? string.Empty;
+
+            var projectDir = Directory.GetCurrentDirectory();
+            var parent = Directory.GetParent(projectDir)?.Parent?.Parent?.FullName;
+
+            _stgPath = $"{parent}{_config["ServerPaths:Staging"] ?? "SimulatedServers/AZstg"}";
+            _AZ102Path = $"{parent}{_config["ServerPaths:AZ102"] ?? "SimulatedServers/AZ102"}";
+            _AZ201Path = $"{parent}{_config["ServerPaths:AZ201"] ?? "SimulatedServers/AZ201"}";
+
         }
+
     }
 }

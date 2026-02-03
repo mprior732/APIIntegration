@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutomatedSiteDeployment.Helpers;
 using Models.Shared.Models.Domains;
 using AutomatedSiteDeployment.Proxies;
+using AutomatedSiteDeployment.Agents;
 
 namespace AutomatedSiteDeployment.Managers
 {
-    internal class MenuManager
+    internal class ServiceManager
     {
         SettingsHelper _settings;
         DomainAPIProxy _proxy;
-        public MenuManager(HttpClient client, SettingsHelper settings)
+        public ServiceManager(HttpClient client, SettingsHelper settings)
         {
             _settings = settings;
             _proxy = new DomainAPIProxy(client, settings);
@@ -96,55 +96,79 @@ namespace AutomatedSiteDeployment.Managers
             bool domainFound = false;
             Domain? domain = new Domain();
             Console.WriteLine("Enter Domain Name or ID:");
-            do
+            try
             {
-                var nameOrId = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(nameOrId))
+                do
                 {
-                    Console.WriteLine("Please enter a valid Domain Name or ID:");
-                    continue;
-                }
-                if (nameOrId.ToLower() == "x")
-                {
-                    return;
-                }
-
-                domain = await _proxy.GetDomainAsync(nameOrId);
-                if (domain == null || !domain.Success)
-                {
-                    Console.WriteLine("Domain not found. Please enter a valid Domain Name or ID");
-                    Console.WriteLine("Or enter \"X\" to return to the menu:");
-                    continue;
-                }
-                else if (domain.HostedSiteDetails == null || domain.HostedSiteDetails.HostedSiteDetailsId == null)
-                {
-                    Console.WriteLine("Domain found but no hosted site details exist.");
-                    Console.WriteLine("Generating hosted site...");
-                    Domain updatedDomain = await UpdateDomain(domain);
-
-                    if (!domain.Success)
+                    var nameOrId = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(nameOrId))
                     {
-                        Console.WriteLine($"Failed to generate hosted site details: {domain.Message}");
-                        Console.WriteLine("Please try again");
+                        Console.WriteLine("Please enter a valid Domain Name or ID:");
+                        continue;
+                    }
+                    if (nameOrId.ToLower() == "x")
+                    {
+                        return;
+                    }
+
+                    domain = await _proxy.GetDomainAsync(nameOrId);
+                    if (domain == null || !domain.Success)
+                    {
+                        Console.WriteLine("Domain not found. Please enter a valid Domain Name or ID");
                         Console.WriteLine("Or enter \"X\" to return to the menu:");
                         continue;
                     }
-
-                    Console.WriteLine("Hosted site details have been generated. Continue with current domain? [y/n]");
-                    var response = Console.ReadLine();
-                    if (response == null || response.ToLower() != "y")
+                    else if (domain.HostedSiteDetails == null || domain.HostedSiteDetails.HostedSiteDetailsId == null)
                     {
-                        continue;
+                        Console.WriteLine("Domain found but no hosted site details exist.");
+                        Console.WriteLine("Generating hosted site...");
+                        Domain updatedDomain = await UpdateDomain(domain);
+
+                        if (!domain.Success)
+                        {
+                            Console.WriteLine($"Failed to generate hosted site details: {domain.Message}");
+                            Console.WriteLine("Please try again");
+                            Console.WriteLine("Or enter \"X\" to return to the menu:");
+                            continue;
+                        }
+
+                        Console.WriteLine("Adding hosted site to staging server.");
+                        FileSystemAgent stagingAgent = new FileSystemAgent(_settings._stgUsername, _settings._stgPassword, "AZstg");
+                        stagingAgent.CreateDirectory(Path.Combine(_settings._stgPath, updatedDomain.DomainName));
+                        await Task.Delay(2000);
+                        stagingAgent.Stop();
+
+                        Console.WriteLine("Hosted site details have been generated. Continue with current domain? [y/n]");
+                        var response = Console.ReadLine();
+                        if (response == null || response.ToLower() != "y")
+                        {
+                            continue;
+                        }
                     }
+                    domainFound = true;
+
+                } while (!domainFound);
+
+                Console.WriteLine($"Domain {domain.DomainName} with ID {domain.DomainId} found.");
+                Console.WriteLine("Proceeding with deployment...");
+
+                SiteDeploymentManager siteDeployment = new SiteDeploymentManager(domain, _settings);
+
+                await siteDeployment.StartDeployment();
+
+                if (siteDeployment.deploySuccess)
+                {
+                    Console.WriteLine($"Deployment was successful!");
                 }
-                domainFound = true;
-
-            } while (!domainFound);
-
-            Console.WriteLine($"Domain {domain.DomainName} with ID {domain.DomainId} found.");
-            Console.WriteLine("Proceeding with deployment...");
-
-            SiteDeploymentManager siteDeployment = new SiteDeploymentManager(domain, _settings);
+                else
+                {
+                    Console.WriteLine($"Deployment failed: {siteDeployment.message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
         }
 
         

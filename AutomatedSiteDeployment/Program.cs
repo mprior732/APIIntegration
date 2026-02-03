@@ -13,7 +13,7 @@ var configuration = new ConfigurationBuilder()
 var settings = new SettingsHelper(configuration);
 
 HttpClient httpClient = new HttpClient();
-var manager = new MenuManager(httpClient, settings);
+var manager = new ServiceManager(httpClient, settings);
 
 Console.WriteLine("==== Automated Site Deployment ====");
 Console.WriteLine("===================================");

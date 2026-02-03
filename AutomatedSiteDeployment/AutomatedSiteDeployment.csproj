@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="SimulatedServers\AZ102\" />
-    <Folder Include="SimulatedServers\AZ201\" />
     <Folder Include="SimulatedServers\AZstg\domain123.com\" />
     <Folder Include="SimulatedServers\AZstg\example.com\" />
     <Folder Include="SimulatedServers\AZstg\test.org\" />
+    <Folder Include="SimulatedServers\AZ102\" />
+    <Folder Include="SimulatedServers\AZ201\" />
   </ItemGroup>
 
   <ItemGroup>

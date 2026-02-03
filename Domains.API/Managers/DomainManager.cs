@@ -260,12 +260,10 @@ namespace Domains.API.Managers
                     return new Domain(false, $"No domain exists with Domain Id: {domain.DomainId}.");
                 }
 
-                Data.DataModels.DomainData domainData = new Data.DataModels.DomainData
-                {
-                    DomainName = domain.DomainName,
-                    Status = domain.Status
-                };
-                if (!await _context.UpdateDomainAsync(domainData))
+                existingDomain.DomainName = domain.DomainName;
+                existingDomain.Status = domain.Status;
+
+                if (!await _context.UpdateDomainAsync(existingDomain))
                 {
                     return new Domain
                     {
