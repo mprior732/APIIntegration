@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "AutomatedSiteDeployment",
+    "Projects": [
+      {
+        "Path": "Domains.API\\Domains.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "AutomatedSiteDeployment\\AutomatedSiteDeployment.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
