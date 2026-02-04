@@ -62,9 +62,6 @@ This system demonstrates a production-style deployment pipeline where a REST API
   - Deploy sites with validation
   - Clean console interface with progress indicators
 
-Select an option:
-```
-
 ## Design Decisions
 
 ### Separation of Concerns
@@ -91,17 +88,16 @@ Demonstrates Windows impersonation pattern without requiring domain setup:
 - **Keeps architecture production-ready** while removing environment dependencies
 
 ## API Endpoints
-```
+
 GET    /api/domain/{identifier}      # Get domain by ID or name
 GET    /api/domain                   # Get all domains
 POST   /api/domain/save              # Create new domain
 PUT    /api/domain/update            # Update domain
-```
 
 All endpoints require API key via query parameter in header (`X-API-Key: xxx`)
 
 ## Deployment Flow
-```
+
 1. User selects "Site Deploy"
    ↓
 2. System validates domain exists via API
@@ -116,7 +112,6 @@ All endpoints require API key via query parameter in header (`X-API-Key: xxx`)
    ↓
 7. Success → Completion message
    Failure → Automatic rollback to previous state
-```
 
 ### Architecture & Design
 - **Layered architecture** - API, Manager, Data separation
