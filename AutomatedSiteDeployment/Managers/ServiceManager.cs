@@ -91,6 +91,44 @@ namespace AutomatedSiteDeployment.Managers
             Console.WriteLine($"Domain updated successfully with HostedSiteId: {updatedDomain.HostedSiteDetails?.HostedSiteDetailsId}");
             return updatedDomain;
         }
+
+        public async Task DeleteDomain()
+        {
+            Console.WriteLine("Enter Domain ID to delete:");
+            try
+            {
+                var domainID = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(domainID) && int.TryParse(domainID, out int ID))
+                {
+                    Domain? deletedDomian = await _proxy.DeleteDomainAsync(ID);
+                    if (deletedDomian == null)
+                    {
+                        Console.WriteLine("No response from server. Failed to delete domain.");
+                        return;
+                    }
+                    else if (!deletedDomian.Success)
+                    {
+                        Console.WriteLine($"Failed to delete domain: {deletedDomian.Message}");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Domain with ID {ID} deleted successfully.");
+                        return;
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a valid ID");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}");
+            }
+        }
         public async Task DeployHostedSite()
         {
             bool domainFound = false;

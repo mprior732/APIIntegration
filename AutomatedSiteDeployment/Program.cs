@@ -23,8 +23,9 @@ while (!exit) {
     Console.WriteLine("Please choose an option to proceed:");
     Console.WriteLine("1. Display all domains");
     Console.WriteLine("2. Save a new Domain");
-    Console.WriteLine("3. Deploy a hosted site");
-    Console.WriteLine("4. Exit");
+    Console.WriteLine("3. Delete a Domain");
+    Console.WriteLine("4. Deploy a hosted site");
+    Console.WriteLine("5. Exit");
 
     var input = Console.ReadLine();
     switch (input)
@@ -36,9 +37,12 @@ while (!exit) {
             await manager.SaveNewDomain();
             break;
         case "3":
-            await manager.DeployHostedSite();
+             await manager.DeleteDomain();
             break;
         case "4":
+            await manager.DeployHostedSite();
+            break;
+        case "5":
             exit = true;
             break;
         default:

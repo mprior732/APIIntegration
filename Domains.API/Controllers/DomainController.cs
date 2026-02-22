@@ -52,7 +52,7 @@ namespace Domains.API.Controllers
             return Ok(domains);
         }
 
-        [HttpPost("save")]
+        [HttpPost()]
         public async Task<ActionResult<Domain>> DomainSave([FromBody] Domain domain)
         {
             if (!IsValidApiKey())
@@ -63,7 +63,7 @@ namespace Domains.API.Controllers
             return Ok(savedDomain);
         }
 
-        [HttpPut("update")]
+        [HttpPut()]
         public async Task<ActionResult<Domain>> DomainUpdate([FromBody] Domain domain)
         {
             if (!IsValidApiKey())
@@ -74,12 +74,9 @@ namespace Domains.API.Controllers
             return Ok(updatedDomain);
         }
 
-        //[HttpDelete("domain-delete")]
-        //public async Task<Domain> DomainDelete(int domainID)
-        //    => await _domainManager.DomainDelete(domainID);
-        //[HttpPut("domain-update")]
-        //public async Task<Domain> DomainUpdate([FromBody] Domain domain)
-        //    => await _domainManager.DomainUpdate(domain);
+        [HttpDelete("{domainID}")]
+        public async Task<Domain> DomainDelete(int domainID)
+            => await _domainManager.DomainDelete(domainID);
     }
         
 }

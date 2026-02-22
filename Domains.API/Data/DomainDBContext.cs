@@ -56,6 +56,13 @@ namespace Domains.API.Data
             return result > 0;
         }
 
+        public async Task<bool> DeleteDomainAsync(DomainData domain)
+        {
+            Domains.Remove(domain);
+            var result = await SaveChangesAsync();
+            return result > 0;
+        }
+
         public async Task<HostedSiteData?> GetHostedSiteByDomainIdAsync(int domainId)
         {
             return await HostedSites.FirstOrDefaultAsync(h => h.DomainId == domainId);
@@ -76,6 +83,13 @@ namespace Domains.API.Data
         public async Task<bool> UpdateHostedSiteAsync(HostedSiteData hostedSite)
         {
             HostedSites.Update(hostedSite);
+            var result = await SaveChangesAsync();
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteHostedSiteAsync(HostedSiteData hostedSite)
+        {
+            HostedSites.Remove(hostedSite);
             var result = await SaveChangesAsync();
             return result > 0;
         }

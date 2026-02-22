@@ -19,7 +19,7 @@ namespace Domains.API.Managers
         /// </summary>
         /// <param name="DomainNameOrID"></param>
         /// <returns></returns>
-        public async Task<Domain> GetOne([FromQuery] string DomainNameOrID)
+        public async Task<Domain> GetOne(string DomainNameOrID)
         {
             try
             {
@@ -312,5 +312,78 @@ namespace Domains.API.Managers
                 return new Domain(false, ex.Message);
             }
         }
+
+        public async Task<Domain> DomainDelete(int domainID)
+        {
+            Domain domain = await GetOne(domainID.ToString());
+            if (!domain.Success)
+            {
+                return new Domain
+                {
+                    Success = false,
+                    Message = $"No domain exists with Domain Id: {domainID}."
+                };
+            }
+
+            try
+            {
+                // Delete HostedSiteDetails first if they exist to avoid FK constraint issues
+                if (domain.HostedSiteDetails != null && domain.HostedSiteDetails.HostedSiteDetailsId.HasValue)
+                {
+                    var existingHostedSite = await _context.GetHostedSiteByDomainIdAsync(domain.DomainId ?? domainID);
+                    if (existingHostedSite == null || !existingHostedSite.HostedSiteDetailsId.HasValue)
+                    {
+                        return new Domain
+                        {
+                            Success = false,
+                            Message = "Hosted site details not found for deletion."
+                        };
+                    }
+
+                    if (!await _context.DeleteHostedSiteAsync(existingHostedSite))
+                    {
+                        return new Domain
+                        {
+                            Success = false,
+                            Message = "Failed to delete hosted site details."
+                        };
+                    }
+                }
+
+                var existingDomainData = await _context.GetDomainAsync(domain.DomainId, null);
+                if (existingDomainData == null || !existingDomainData.DomainId.HasValue)
+                {
+                    return new Domain
+                    {
+                        Success = false,
+                        Message = "Failed to locate domain for deletion."
+                    };
+                }
+
+                if (!await _context.DeleteDomainAsync(existingDomainData))
+                {
+                    return new Domain
+                    {
+                        Success = false,
+                        Message = "Failed to delete domain."
+                    };
+                }
+
+                return new Domain
+                {
+                    Success = true,
+                    Message = "Domain deleted successfully."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Domain
+                {
+                    Success = false,
+                    Message = $"Exception thrown in DomainDelete: {ex.Message}"
+                };
+            }
+        }
+
     }
 }

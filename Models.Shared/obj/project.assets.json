@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mprio\\Source\\Repos\\APIIntegration\\Models.Shared\\Models.Shared.csproj",
+      "projectUniqueName": "C:\\Users\\mprio\\source\\repos\\mprior732\\APIIntegration\\Models.Shared\\Models.Shared.csproj",
       "projectName": "Models.Shared",
-      "projectPath": "C:\\Users\\mprio\\Source\\Repos\\APIIntegration\\Models.Shared\\Models.Shared.csproj",
+      "projectPath": "C:\\Users\\mprio\\source\\repos\\mprior732\\APIIntegration\\Models.Shared\\Models.Shared.csproj",
       "packagesPath": "C:\\Users\\mprio\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mprio\\Source\\Repos\\APIIntegration\\Models.Shared\\obj\\",
+      "outputPath": "C:\\Users\\mprio\\source\\repos\\mprior732\\APIIntegration\\Models.Shared\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

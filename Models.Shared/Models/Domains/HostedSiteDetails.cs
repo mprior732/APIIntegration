@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.Shared.Models.Domains
 {
-    public class HostedSiteDetails
+    public class HostedSiteDetails : ModelBase
     {
         public int? HostedSiteDetailsId { get; set; }
         public int? DomainId { get; set; }

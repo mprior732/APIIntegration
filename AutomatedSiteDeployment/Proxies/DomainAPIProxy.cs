@@ -58,7 +58,7 @@ namespace AutomatedSiteDeployment.Proxies
         {
             try
             {
-                var url = $"{_settings._domainsAPIBase}/api/domain/save";
+                var url = $"{_settings._domainsAPIBase}/api/domain/";
                 var response = await _httpClient.PostAsJsonAsync(url, domain);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -77,7 +77,7 @@ namespace AutomatedSiteDeployment.Proxies
         {
             try
             {
-                var url = $"{_settings._domainsAPIBase}/api/domain/update";
+                var url = $"{_settings._domainsAPIBase}/api/domain/";
                 var response = await _httpClient.PutAsJsonAsync(url, domain);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -85,6 +85,25 @@ namespace AutomatedSiteDeployment.Proxies
                 }
                 Domain? updatedDomain = await response.Content.ReadFromJsonAsync<Domain>();
                 return updatedDomain;
+            }
+            catch (Exception ex)
+            {
+                return new Domain(false, ex.Message);
+            }
+        }
+
+        public async Task<Domain?> DeleteDomainAsync(int domainId)
+        {
+            try
+            {
+                var url = $"{_settings._domainsAPIBase}/api/domain/{domainId}";
+                var response = await _httpClient.DeleteAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Domain(false, "Response returned a non-success status code.");
+                }
+                Domain? deleteResponse = await response.Content.ReadFromJsonAsync<Domain>();
+                return deleteResponse;
             }
             catch (Exception ex)
             {
